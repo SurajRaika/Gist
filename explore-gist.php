@@ -28,37 +28,19 @@ if ($searchText !== "") {
 $page = "Explore Page";
 ob_start();
 ?>
-    <script src="https://cdn.jsdelivr.net/npm/iblize/dist/iblize.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/iblize/dist/iblize.min.js"></script>
 
-    <style>
-        .iblize_pre{
-            overflow:hidden;
-        }
-     
-    </style>
+<style>
+    .iblize_pre {
+        overflow: hidden;
+    }
+</style>
 
 <div class="container mt-4 ">
     <?php foreach ($gistCards as $gistCard): ?>
 
 
-
-        <!-- <div class="card mb-4">
-            <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">
-                    <a href="./gist.php?id=<?php echo $gistCard['id']; ?>" class="text-decoration-none">
-                         <?php echo $gistCard['filename']; ?> / <span class="fw-normal"><?php echo $gistCard['description']; ?></span>
-                    </a>
-                </h5>
-                <small class="text-muted"> <?php if($gistCard['username']){ echo 'By '.$gistCard['username'];}; ?></small>
-            </div>
-            <?php if (!$defaultPage): ?>
-                <div class="card-body">
-                    <?php echo $gistCard['content']; ?>
-                </div>
-            <?php endif; ?>
-        </div> -->
-
-                <?php createCard($gistCard['id'],$gistCard['description'],$gistCard['filename'], $gistCard['content'], $gistCard['username']); ?>
+        <?php createCard($gistCard['id'], $gistCard['description'], $gistCard['filename'], $gistCard['content'], $gistCard['username']); ?>
 
 
     <?php endforeach; ?>
@@ -71,7 +53,8 @@ ob_start();
             ?>
 
             <li class="page-item <?php echo $currentPage <= 1 ? 'disabled' : ''; ?>">
-                <a class="page-link" href="<?php echo $currentPage > 1 ? './explore-gist.php?page=' . ($currentPage - 1) : '#'; ?>">Previous</a>
+                <a class="page-link"
+                    href="<?php echo $currentPage > 1 ? './explore-gist.php?page=' . ($currentPage - 1) : '#'; ?>">Previous</a>
             </li>
 
             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
@@ -81,7 +64,8 @@ ob_start();
             <?php endfor; ?>
 
             <li class="page-item <?php echo $currentPage >= $totalPages ? 'disabled' : ''; ?>">
-                <a class="page-link" href="<?php echo $currentPage < $totalPages ? './explore-gist.php?page=' . ($currentPage + 1) : '#'; ?>">Next</a>
+                <a class="page-link"
+                    href="<?php echo $currentPage < $totalPages ? './explore-gist.php?page=' . ($currentPage + 1) : '#'; ?>">Next</a>
             </li>
         </ul>
     </nav>

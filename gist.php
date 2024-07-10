@@ -36,6 +36,9 @@ $filename = $gist_data['filename'];
 $content = $gist_data['content'];
 $numberOfNewlines = substr_count($content, "\n")+2;
 $height = $numberOfNewlines * 30;
+$file_split = explode(".", $filename);
+$file_type = $file_split[count($file_split)-1];
+
 
 $page = "Home Page";
 ob_start();
@@ -102,7 +105,7 @@ ob_start();
     // Initialize Iblize editor
 
     const iblize = new Iblize("#editor", {
-        language: "python",
+        language: "<?php safePrint($file_type) ?>",
         // tabSize:20,
         readOnly: true // Set the editor to be read-only
 

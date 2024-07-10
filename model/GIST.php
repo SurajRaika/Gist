@@ -116,17 +116,43 @@ public function searchGists($searchText)
 
 private function getAdditionalText($content, $searchText)
 {
-    // Find the position of the search text in the content
-    $position = strpos($content, $searchText) ? true:1  ;
-    if ($position !== false) {
-        // Extract 15 characters before and 25 characters after the search text
-        $startPosition = max(0, $position - 15);
+    // Escape HTML characters
+    $escapedContent = $content;
+        $escapedSearchText = htmlspecialchars($searchText, ENT_QUOTES, 'UTF-8');
+    
+    // Split content into lines
+    $lines = explode("\n", $escapedContent);
 
-        $endPosition = min(strlen($content), $position + strlen($searchText) + 50);
-
-        return substr($content, $startPosition, $endPosition - $startPosition);
+    // If no search text, return the first four lines
+    if (empty($escapedSearchText)) {
+        $firstFourLines = array_slice($lines, 0, 4);
+        return implode("\n", $firstFourLines);
     }
-    return substr($content, 0, 25);
+
+    // Find the line containing the search text
+    $text_foundin = -1;
+    for ($i = 0; $i < count($lines); $i++) {
+        if (stripos($lines[$i], $escapedSearchText) !== false) {
+            $text_foundin = $i;
+            break;
+        }
+    }
+
+    // If search text is found, extract the desired lines
+    if ($text_foundin >= 0) {
+        $startPosition = max(0, $text_foundin - 1);
+        $endPosition = min(count($lines), $text_foundin + 3);
+        $extractedLines = array_slice($lines, $startPosition, $endPosition - $startPosition);
+
+        // Highlight the search text in the extracted lines
+       
+
+        return implode("\n", $extractedLines);
+    }
+
+    // If search text is not found, return the first four lines
+    $firstFourLines = array_slice($lines, 0, 4);
+    return implode("\n", $firstFourLines);
 }
 
 
